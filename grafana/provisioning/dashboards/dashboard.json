@@ -1,0 +1,128 @@
+{
+    "id": null,
+    "uid": "polkadot-metrics",
+    "title": "Polkadot Metrics",
+    "tags": ["polkadot", "staking"],
+    "timezone": "browser",
+    "schemaVersion": 26,
+    "version": 1,
+    "templating": {
+      "list": [
+        {
+          "name": "chain",
+          "type": "query",
+          "query": "label_values(polkadot_chains, chain)",
+          "datasource": "Prometheus",
+          "refresh": 2,
+          "includeAll": false,
+          "multi": false
+        },
+        {
+          "name": "validator",
+          "type": "query",
+          "query": "label_values(polkadot_validators, validator)",
+          "datasource": "Prometheus",
+          "refresh": 2,
+          "includeAll": true,
+          "multi": true
+        }
+      ]
+    },
+    "panels": [
+      {
+        "title": "Current Era Over Time",
+        "type": "timeseries",
+        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 6 },
+        "targets": [
+          {
+            "expr": "polkadot_current_era{chain=\"$chain\"}",
+            "legendFormat": "Era",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "none",
+            "decimals": 0
+          }
+        },
+        "options": {
+          "showPoints": "always",
+          "tooltip": {
+            "mode": "single"
+          },
+          "legend": {
+            "displayMode": "list"
+          }
+        }
+      },
+      {
+        "title": "Current Era",
+        "type": "stat",
+        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 6 },
+        "targets": [
+          {
+            "expr": "polkadot_current_era{chain=\"$chain\"}",
+            "legendFormat": "Era",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "none",
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": []
+            },
+            "color": {
+              "mode": "fixed",
+              "fixedColor": "green"
+            },
+            "valueFontSize": "80%"
+          }
+        }
+      },
+      {
+        "title": "Eras Reward Points",
+        "type": "timeseries",
+        "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "polkadot_eras_reward_points{chain=\"$chain\", validator=\"$validator\"}",
+            "legendFormat": "{{ validator }}",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "none",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "title": "Failed API Requests (Rate per 5m)",
+        "type": "timeseries",
+        "gridPos": { "x": 0, "y": 12, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "rate(polkadot_failed_requests[5m])",
+            "legendFormat": "Requests per second",
+            "refId": "C"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "req/s",
+            "decimals": 2,
+            "color": {
+              "mode": "fixed",
+              "fixedColor": "red"
+            }
+          }
+        }
+      }
+    ]
+  }

@@ -1,0 +1,35 @@
+{
+    "id": null,
+    "uid": "api-metrics",
+    "title": "API Metrics",
+    "tags": ["api", "performance"],
+    "timezone": "browser",
+    "schemaVersion": 26,
+    "version": 1,
+    "panels": [
+      {
+        "title": "CPU Usage",
+        "type": "timeseries",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 4 },
+        "targets": [
+          {
+            "expr": "rate(process_cpu_seconds_total[5m])",
+            "legendFormat": "CPU Usage",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "title": "Memory Usage (MB)",
+        "type": "timeseries",
+        "gridPos": { "x": 0, "y": 4, "w": 12, "h": 4 },
+        "targets": [
+          {
+            "expr": "process_resident_memory_bytes / 1024 / 1024",
+            "legendFormat": "Memory Usage",
+            "refId": "B"
+          }
+        ]
+      }
+    ]
+  }
