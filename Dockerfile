@@ -15,6 +15,6 @@ COPY --from=builder /app .
 
 USER nonroot
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["src/index.js"]
